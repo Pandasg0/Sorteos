@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego Interactivo</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.5s;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #game-area {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            border: 2px solid #333;
+            background-color: #f0f0f0;
+        }
+
+        #click-box {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #score {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Juego Interactivo: Clic y Cambia el Fondo</h1>
+        <p id="instructions">Haz clic en el cuadrado para cambiar el fondo de color y aumentar tu puntuación.</p>
+        <div id="game-area">
+            <div id="click-box"></div>
+        </div>
+        <p id="score">Puntuación: 0</p>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clickBox = document.getElementById('click-box');
+            const scoreDisplay = document.getElementById('score');
+            let score = 0;
+
+            // Función para obtener un color aleatorio
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            // Función para mover el cuadro de clic a una posición aleatoria
+            function moveClickBox() {
+                const gameArea = document.getElementById('game-area');
+                const maxWidth = gameArea.clientWidth - clickBox.clientWidth;
+                const maxHeight = gameArea.clientHeight - clickBox.clientHeight;
+
+                const randomX = Math.floor(Math.random() * maxWidth);
+                const randomY = Math.floor(Math.random() * maxHeight);
+
+                clickBox.style.left = randomX + 'px';
+                clickBox.style.top = randomY + 'px';
+            }
+
+            // Evento de clic en el cuadro
+            clickBox.addEventListener('click', function() {
+                // Cambiar el color de fondo
+                document.body.style.backgroundColor = getRandomColor();
+
+                // Aumentar la puntuación
+                score++;
+                scoreDisplay.textContent = 'Puntuación: ' + score;
+
+                // Mover el cuadro de clic a una nueva posición
+                moveClickBox();
+            });
+
+            // Inicializar la posición del cuadro de clic
+            moveClickBox();
+        });
+    </script>
+</body>
+</html>
